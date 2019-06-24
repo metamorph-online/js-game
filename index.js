@@ -1,6 +1,7 @@
 import "./styles.css";
 import Paddle from './paddle';
 import InputHandler from './input';
+import Ball from './ball';
 
 let canvas = document.getElementById('gameScreen');
 let ctx = canvas.getContext("2d");
@@ -11,14 +12,13 @@ const GAME_WIDTH =  800;
 const GAME_HEIGHT = 600;
 
 let paddle = new Paddle(GAME_WIDTH, GAME_HEIGHT);
+let ball = new Ball(GAME_WIDTH, GAME_HEIGHT);
 
 new InputHandler(paddle);
 
-paddle.draw(ctx);
 
 let lastTime = 0;
 
-let imgBall = document.getElementById('img_ball');
 
 function gameLoop(timestamp){
 
@@ -26,15 +26,15 @@ function gameLoop(timestamp){
 
 	lastTime = timestamp
 
-	ctx.clearRect(0, 0, 800, 600);
+	ctx.clearRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
 
 	paddle.update(deltaTime);
+	ball.update(deltaTime);
 
 	paddle.draw(ctx);
-
-	ctx.drawImage(imgBall, 10, 10);
+	ball.draw(ctx);
 
 	requestAnimationFrame(gameLoop);
 }
 
-gameLoop();
+requestAnimationFrame(gameLoop);
